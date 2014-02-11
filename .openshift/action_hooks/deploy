@@ -1,11 +1,9 @@
 #!/bin/bash
 
-dbsize=$(mongo $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/parkmapsnode --eval "db.parkpoints.find()")
-
-# "parkpoints .* { }"
+dbsize=$(mongo -quiet $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/parkmapsnode -u  $OPENSHIFT_MONGODB_DB_USERNAME -p  $OPENSHIFT_MONGODB_DB_PASSWORD --eval "db.parkpoints.count()")
 
 #If the query says that parkpoints has 0 documents then we import the data
-if [[ $dbsize =~ "parkpoints -> { }" ]]
+if [[ $dbsize = "0"]]
 then
 	#import the data
     	mongoimport -d $OPENSHIFT_APP_NAME -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/parkcoord.json  -h $OPENSHIFT_MONGODB_DB_HOST --port $OPENSHIFT_MONGODB_DB_PORT -u admin -p $OPENSHIFT_MONGODB_DB_PASSWORD
