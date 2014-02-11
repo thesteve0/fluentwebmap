@@ -1,31 +1,35 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "Mongo Node Leaflet Park Example on OpenShift",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "Mapping application built for the O'Reilly Webinar",
   "keywords": [
     "OpenShift",
     "Node.js",
     "application",
-    "openshift"
+    "openshift",
+	"Leaflet",
+	"Express",
+	"MongoDB"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "Steven Pousty",
+    "email": "spousty@redhat.com",
+    "url":  "http://openshift.redhat.com/"
   },
-  "homepage": "http://www.openshift.com/",
+  "homepage": "http://openshift.redhat.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openshift/origin-server"
+    "url": "https://fill.in.later.com"
   },
 
   "engines": {
-    "node": ">= 0.6.0",
+    "node": "= 0.10",
     "npm": ">= 1.0.0"
   },
 
   "dependencies": {
-    "express": "~3.4.4"
+  	  "mongodb" : "1.4.0" ,
+      "express" : "3.4.7"
   },
   "devDependencies": {},
   "bundleDependencies": [],
