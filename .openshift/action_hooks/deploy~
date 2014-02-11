@@ -3,16 +3,16 @@
 dbsize=$(mongo -quiet $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/$OPENSHIFT_APP_NAME -u  $OPENSHIFT_MONGODB_DB_USERNAME -p  $OPENSHIFT_MONGODB_DB_PASSWORD --eval "db.parkpoints.count()")
 
 #If the query says that parkpoints has 0 documents then we import the data
-if [[ $dbsize = "0"]]
+if [[ $dbsize =~ "0" ]]
 then
-	#import the data
-    	mongoimport -d $OPENSHIFT_APP_NAME -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/parkcoord.json  -h $OPENSHIFT_MONGODB_DB_HOST --port $OPENSHIFT_MONGODB_DB_PORT -u admin -p $OPENSHIFT_MONGODB_DB_PASSWORD
+    	#import the data
+        mongoimport -d $OPENSHIFT_APP_NAME -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/parkcoord.json  -h $OPENSHIFT_MONGODB_DB_HOST --port $OPENSHIFT_MONGODB_DB_PORT -u admin -p $OPENSHIFT_MONGODB_DB_$
 
-	#make the 2D index
-	mongo $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/$OPENSHIFT_APP_NAME --eval 'db.parkpoints.ensureIndex( { pos : "2d" } );'
-	echo "imported the data"
+        #make the 2D index
+        mongo $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/$OPENSHIFT_APP_NAME --eval 'db.parkpoints.ensureIndex( { pos : "2d" } );'
+        echo "imported the data"
 else
-	echo "There was already data in the database. Not importing"
+    	echo "There was already data in the database. Not importing"
 
 fi
 
