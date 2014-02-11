@@ -14,7 +14,7 @@ then
 	mongo $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/parkmapsnode --eval 'db.parkpoints.ensureIndex( { pos : "2d" } );'
 	echo "imported the data"
 else
-    	echo "There was already data in the database. Not importing"
+	echo "There was already data in the database. Not importing"
 
 fi
 

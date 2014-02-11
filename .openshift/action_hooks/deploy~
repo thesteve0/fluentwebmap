@@ -1,5 +1,20 @@
 #!/bin/bash
-# This deploy hook gets executed after dependencies are resolved and the
-# build hook has been run but before the application has been started back
-# up again.  This script gets executed directly, so it could be python, php,
-# ruby, etc.
+
+dbsize=$(mongo $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/parkmapsnode --eval "db.parkpoints.find()")
+
+# "parkpoints .* { }"
+
+#If the query says that parkpoints has 0 documents then we import the data
+if [[ $dbsize =~ "parkpoints -> { }" ]]
+then
+	#import the data
+    	mongoimport -d $OPENSHIFT_APP_NAME -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/parkcoord.json  -h $OPENSHIFT_MONGODB_DB_HOST --port $OPENSHIFT_MONGODB_DB_PORT -u admin -p $OPENSHIFT_MONGODB_DB_PASSWORD
+
+	#make the 2D index
+	mongo $OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/parkmapsnode --eval 'db.parkpoints.ensureIndex( { pos : "2d" } );'
+	echo "imported the data"
+else
+    	echo "There was already data in the database. Not importing"
+
+fi
+
