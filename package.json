@@ -1,7 +1,7 @@
 {
-  "name": "Mongo Node Leaflet Park Example on OpenShift",
+  "name": "parkmapsnode",
   "version": "1.0.0",
-  "description": "Mapping application built for the O'Reilly Webinar",
+  "description": "Mapping application built for the OReilly Webinar",
   "keywords": [
     "OpenShift",
     "Node.js",
