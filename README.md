@@ -1,8 +1,10 @@
-#The code to accompany Fluent Webinar 2014
+#The code to accompany [Fluent Webcast](http://www.oreillynet.com/pub/e/3017) 2014
 
 This code actually belongs to a [blog piece](https://openshift.redhat.com/community/blogs/using-nodejs-mongodb-express-for-your-spatial-web-service-and-its-free) written on OpenShift.com 
 
-========
+
+It is a very simple application that let's serve up points on an OpenStreetMap base layer. If you want to use your own data you can replace the contents of parks.json with your own data and import that instead.
+
 
 Running on OpenShift
 ----------------------------
@@ -24,7 +26,7 @@ now add this upstream node repo
 
 
     cd fluentwebmap
-    git remote add upstream -m master https://??????
+    git remote add upstream -m master https://github.com/thesteve0/fluentwebmap.git
     git pull -s recursive -X theirs upstream master
     
 Then push the repo upstream
