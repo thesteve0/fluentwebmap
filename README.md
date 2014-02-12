@@ -19,7 +19,7 @@ You can name your application anything you want - it does not have to be fluentw
 
 The command line above also uses -s to make it a scalable application, where MongoDB and Node.JS are on different gears and therefore do not have to share resources. It also allows them to scale independently
 
-Since I am a paid user, I am also choosing to use medium gears (1 gig of memory) for my applications.
+Since I am a paid user, I am also choosing to use medium gears (1 gig of memory) by using the -g flag for my applications.
 
 
 now add this upstream node repo
@@ -34,9 +34,7 @@ Then push the repo upstream
     git push
     
 
-Now, ssh into the application.
-
-Once the data is imported you can now checkout your application at:
+You can now checkout your application at:
 
     http://fluentwebapp-$yournamespace.rhcloud.com/
 
