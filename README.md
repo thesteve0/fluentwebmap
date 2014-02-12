@@ -11,12 +11,19 @@ Create an account at http://openshift.redhat.com/
 
 Create a Node.js application and add a MongoDB cartridge to the app
 
-    rhc app create parkmapsnode nodejs-0.10 mongodb-2.2
+    rhc app create fluentwebmap nodejs-0.1 mongodb-2.2 -s -g medium
+    
+You can name your application anything you want - it does not have to be fluentwebmap.
 
-Add this upstream node repo
+The command line above also uses -s to make it a scalable application, where MongoDB and Node.JS are on different gears and therefore do not have to share resources. It also allows them to scale independently
+
+Since I am a paid user, I am also choosing to use medium gears (1 gig of memory) for my applications.
 
 
-    cd parkmapsnode
+now add this upstream node repo
+
+
+    cd fluentwebmap
     git remote add upstream -m master https://??????
     git pull -s recursive -X theirs upstream master
     
@@ -27,21 +34,9 @@ Then push the repo upstream
 
 Now, ssh into the application.
 
-Add the data to a collection called parkpoints:
-
-//This should actually go in the deploy hook
-    mongoimport -d parkmapsnode -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/parkcoord.json  -h $OPENSHIFT_MONGODB_DB_HOST  -u admin -p $OPENSHIFT_MONGODB_DB_PASSWORD
-
-    
-Create the spatial index on the documents:
-
-    mongo
-    use nodews
-    db.parkpoints.ensureIndex( { pos : "2d" } );
-
 Once the data is imported you can now checkout your application at:
 
-    http://nodews-$yournamespace.rhcloud.com/ws/parks
+    http://fluentwebapp-$yournamespace.rhcloud.com/
 
 
 License
