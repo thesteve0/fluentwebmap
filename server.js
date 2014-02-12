@@ -89,7 +89,7 @@ var App = function(){
       var lat2 = parseFloat(req.query.lat2);
       var lon2 = parseFloat(req.query.lon2);
 
-      self.db.collection('parkpoints').find({"pos" : { $geoWithin : { $box: [[lon1,lat1], [lon2,lat2]]}}}).toArray(function(err,names){
+      self.db.collection('parkpoints').find({"pos" : { $geoWithin : { $box: [[lon2,lat2], [lon1,lat1]]}}}).toArray(function(err,names){
           res.header("Content-Type:","application/json");
           res.end(JSON.stringify(names));
       });
