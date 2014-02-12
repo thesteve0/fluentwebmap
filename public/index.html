@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Map of parks</title> 
+  	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+	<!--[if lte IE 8]>
+    	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+	<![endif]-->
+	<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Milonga' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />	<style type="text/css">
+		body {
+    		padding: 0;
+		    margin: 0;
+		}
+		html, body, #map {
+		    height: 100%;
+		    font-family: 'Milonga', cursive;
+		}
+		.leaflet-container .leaflet-control-zoom {
+		    margin-left: 13px;
+		    margin-top: 70px;
+		}
+		
+		
+		
+		#map { z-index: 1;}
+		#title { z-index: 2; position: absolute; left: 10px; }
+	</style>	
+	
+</head>
+<body>
+	<h1 id="title">National Park Locator</h1>
+	<div id="map"></div>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script> 
+	<script>
+		var map = L.map('map').setView([42.35, -71.06], 12);
+		var markerLayerGroup = L.layerGroup().addTo(map);
+		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+		}).addTo(map);
+
+		
+
+		function getPins(e){			
+			bounds = map.getBounds();
+			url = "ws/parks/within?lat1=" + bounds.getNorthEast().lat + "&lon1=" + bounds.getNorthEast().lng + "&lat2=" + bounds.getSouthWest().lat + "&lon2=" + bounds.getSouthWest().lng;
+			$.get(url, pinTheMap, "json")
+		}
+
+		function pinTheMap(data){
+			//clear the current pins
+			map.removeLayer(markerLayerGroup);
+			
+			//add the new pins
+			var markerArray = new Array(data.length)
+			for (var i = 0; i < data.length; i++){
+				park = data[i];
+				markerArray[i] = L.marker([park.position[1], park.position[0]]).bindPopup(park.name);			
+			}
+			
+			markerLayerGroup = L.layerGroup(markerArray).addTo(map);	
+
+
+		}
+
+		map.on('dragend', getPins);	
+		map.on('zoomend', getPins);
+		map.whenReady(getPins)
+		
+	</script>
+</body>
+</html>
+

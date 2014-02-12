@@ -26,7 +26,7 @@ var App = function(){
   self.routes = {};
   self.routes['health'] = function(req, res){ res.send('1'); };
   
-  self.routes['root'] = function(req, res){res.send('You have come to the park apps web service. All the web services are at /ws/parks*. For example /ws/parks will return all the parks in the system in a JSON payload. Thanks for stopping by and have a nice day'); };
+  //self.routes['root'] = function(req, res){res.send('You have come to the park apps web service. All the web services are at /ws/parks*. For example /ws/parks will return all the parks in the system in a JSON payload. Thanks for stopping by and have a nice day'); };
 
   //returns all the parks in the collection
   self.routes['returnAllParks'] = function(req, res){
@@ -101,6 +101,12 @@ var App = function(){
   // Web app urls
   
   self.app  = express();
+  self.app.use(express.comress());
+  
+  // Serve up content from public directory
+  self.app.use(express.static(__dirname + '/public'));
+
+
 
   //This uses the Connect frameworks body parser to parse the body of the post request
   self.app.configure(function () {
@@ -111,7 +117,7 @@ var App = function(){
 
   //define all the url mappings
   self.app.get('/health', self.routes['health']);
-  self.app.get('/', self.routes['root']);
+  //self.app.get('/', self.routes['root']);
   self.app.get('/ws/parks', self.routes['returnAllParks']);
   self.app.get('/ws/parks/park/:id', self.routes['returnAPark']);
   self.app.get('/ws/parks/near', self.routes['returnParkNear']);
