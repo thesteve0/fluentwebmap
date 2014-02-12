@@ -11,7 +11,7 @@ var App = function(){
 
   // Setup
   self.dbServer = new mongodb.Server(process.env.OPENSHIFT_MONGODB_DB_HOST,parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT));
-  self.db = new mongodb.Db('nodews', self.dbServer, {auto_reconnect: true});
+  self.db = new mongodb.Db(process.env.OPENSHIFT_APP_NAME, self.dbServer, {auto_reconnect: true});
   self.dbUser = process.env.OPENSHIFT_MONGODB_DB_USERNAME;
   self.dbPass = process.env.OPENSHIFT_MONGODB_DB_PASSWORD;
 
@@ -82,7 +82,19 @@ var App = function(){
          res.end('success');
      };
   };
+  
+  self.routes['within'] = function(req, res){
+      var lat1 = parseFloat(req.query.lat1);
+      var lon1 = parseFloat(req.query.lon1);
+      var lat2 = parseFloat(req.query.lat2);
+      var lon2 = parseFloat(req.query.lon2);
 
+      
+      self.db.collection('parkpoints').find("pos" : { $within : $box: [[lon1,lat1], [lon2,lat2]}}).toArray(function(err,names){
+          res.header("Content-Type:","application/json");
+          res.end(JSON.stringify(names));
+      });
+  };
 
 
 
@@ -106,6 +118,7 @@ var App = function(){
   self.app.get('/ws/parks/near', self.routes['returnParkNear']);
   self.app.get('/ws/parks/name/near/:name', self.routes['returnParkNameNear']);
   self.app.post('/ws/parks/park', self.routes['postAPark']);
+  self.app.post('/ws/parks/within', self.routes['within']);
 
   // Logic to open a database connection. We are going to call this outside of app so it is available to all our functions inside.
 
