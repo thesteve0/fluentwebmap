@@ -57,7 +57,7 @@
 			var markerArray = new Array(data.length)
 			for (var i = 0; i < data.length; i++){
 				park = data[i];
-				markerArray[i] = L.marker([park.position[1], park.position[0]]).bindPopup(park.name);			
+				markerArray[i] = L.marker([park.pos[1], park.pos[0]]).bindPopup(park.Name);			
 			}
 			
 			markerLayerGroup = L.layerGroup(markerArray).addTo(map);	
