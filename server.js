@@ -101,7 +101,7 @@ var App = function(){
   // Web app urls
   
   self.app  = express();
-  self.app.use(express.comress());
+  self.app.use(express.compress());
   
   // Serve up content from public directory
   self.app.use(express.static(__dirname + '/public'));
