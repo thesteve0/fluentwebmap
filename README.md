@@ -36,7 +36,7 @@ Then push the repo upstream
 
 You can now checkout your application at:
 
-    http://fluentwebapp-$yournamespace.rhcloud.com/
+    http://fluentwebmap-$yournamespace.rhcloud.com/
 
 
 License
