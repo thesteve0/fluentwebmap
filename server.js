@@ -122,8 +122,9 @@ var App = function(){
   self.app.get('/ws/parks/park/:id', self.routes['returnAPark']);
   self.app.get('/ws/parks/near', self.routes['returnParkNear']);
   self.app.get('/ws/parks/name/near/:name', self.routes['returnParkNameNear']);
+  self.app.get('/ws/parks/within', self.routes['within']);
   self.app.post('/ws/parks/park', self.routes['postAPark']);
-  self.app.post('/ws/parks/within', self.routes['within']);
+
 
   // Logic to open a database connection. We are going to call this outside of app so it is available to all our functions inside.
 
