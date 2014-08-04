@@ -24,7 +24,7 @@ var App = function() {
   self.routes = {};
   self.routes['health'] = function(req, res){ res.send('1'); };
   
-  //self.routes['root'] = function(req, res){res.send('You have come to the apps web service. All the web services are at /ws/parks*. For example /ws/parks will return all the parks in the system in a JSON payload. Thanks for stopping by and have a nice day'); };
+  //self.routes['root'] = function(req, res){res.send('You have come to the park apps web service. All the web services are at /ws/parks*. For example /ws/parks will return all the parks in the system in a JSON payload. Thanks for stopping by and have a nice day'); };
 
   //returns all the parks in the collection
   self.routes['returnAllParks'] = function(req, res) {
@@ -60,8 +60,7 @@ var App = function() {
                                                 { 
                                                   type : "Point", 
                                                   coordinates : [lon, lat] 
-                                                }, 
-                                                $maxDistance : 100000 
+                                                }
                                               }
                                             }
                                           }).toArray(function(err, names) {
@@ -78,10 +77,6 @@ var App = function() {
     var lat = parseFloat(req.query.lat);
     var lon = parseFloat(req.query.lon);
     var name = req.params.name;
-    
-    console.log('latitude:', lat);
-    console.log('longitude:', lon);
-    console.log('name:', name);
     
     self.db.collection('parkpoints').find({ 
                                             "Name" : { $regex : name, $options : 'i' }, 
@@ -140,7 +135,7 @@ var App = function() {
   // Serve up content from public directory
   self.app.use(express.static(__dirname + '/public'));
 
-  // This uses the express framework's body parser to parse the body of the post request
+  // This uses the Express framework's body parser to parse the body of the post request
   self.app.configure(function () {
     self.app.use(express.bodyParser());
     self.app.use(express.methodOverride());
