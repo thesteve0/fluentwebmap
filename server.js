@@ -69,7 +69,6 @@ var App = function() {
       }
       res.header("Content-Type:","application/json");
       res.end(JSON.stringify(names));
-      console.log('names.length:', names.length);
     });
   };
 
@@ -159,7 +158,7 @@ var App = function() {
     self.db.open(function(err, db){
       if (err) { 
         throw err; 
-      };
+      }
       
       self.db.ensureIndex('parkpoints', { "pos" : "2dsphere" }, function(err, indexName) {
         if (err) {
@@ -168,8 +167,8 @@ var App = function() {
                 
         self.db.authenticate(self.dbUser, self.dbPass, {authdb: "admin"}, function(err, res) {
           if (err) { 
-            throw err 
-          };
+            throw err;
+          }
           callback();
         });
       });
